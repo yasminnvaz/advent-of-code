@@ -43,6 +43,7 @@ function findSecretNumber(arr) {
 const nums1 = findTwoNumbers(data)
 const nums2 = findThreeNumbers(data)
 
-console.log(findSecretNumber(nums1));
-console.log(findSecretNumber(nums2));
+// console.log(findSecretNumber(nums1));
+// console.log(findSecretNumber(nums2));
 
+module.exports = {findTwoNumbers, findThreeNumbers, findSecretNumber}
