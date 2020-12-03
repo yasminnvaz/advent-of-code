@@ -4,11 +4,11 @@ function findTwoNumbers(arr) {
     const goal = 2020
     let nums
 
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-            let sum = arr[i] + arr[j]
+    for (let key1 in arr) {
+        for (let key2 in arr) {
+            let sum = arr[key1] + arr[key2]
             if (sum === goal) {
-                nums = [arr[i], arr[j]]
+                nums = [arr[key1], arr[key2]]
             }
         }
     }
@@ -20,12 +20,12 @@ function findThreeNumbers(arr) {
     const goal = 2020
     let nums
 
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = i + 1; j < arr.length; j++) {
-            for (let h = j + 1; h < arr.length; h++) {
-                let sum = arr[i] + arr[j] + arr[h]
+    for (let key1 in arr) {
+        for (let key2 in arr) {
+            for (let key3 in arr) {
+                let sum = arr[key1] + arr[key2] + arr[key3]
                 if (sum === goal) {
-                    nums = [arr[i], arr[j], arr[h]]
+                    nums = [arr[key1], arr[key2], arr[key3]]
                     break;
                 }
             }
@@ -43,7 +43,7 @@ function findSecretNumber(arr) {
 const nums1 = findTwoNumbers(data)
 const nums2 = findThreeNumbers(data)
 
-// console.log(findSecretNumber(nums1));
-// console.log(findSecretNumber(nums2));
+console.log(findSecretNumber(nums1));
+console.log(findSecretNumber(nums2));
 
 module.exports = {findTwoNumbers, findThreeNumbers, findSecretNumber}
