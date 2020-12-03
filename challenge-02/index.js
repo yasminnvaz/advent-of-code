@@ -42,10 +42,6 @@ function validatePasswords(arr) {
 
 }
 
-function XOROperation(x, y) {
-    return (x || y) && !(x && y)
-}
-
 function validatePasswordsByPosition(arr) {
 
     let count = 0
@@ -66,7 +62,5 @@ function validatePasswordsByPosition(arr) {
     return count
 }
 
-const dataParsed = parserData(data);
+module.exports = { parserData, validatePasswords, validatePasswordsByPosition }
 
-console.log(`count: ${validatePasswords(dataParsed)}`)
-console.log(`count: ${validatePasswordsByPosition(dataParsed)}`)
