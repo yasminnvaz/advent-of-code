@@ -1,35 +1,39 @@
 const fs = require('fs')
 
-const data = fs.readFileSync('./data.txt', 'UTF-8').split('\n');
+const data = fs.readFileSync('./data-02.txt', 'UTF-8').split('\n').filter(item => item);
 
 function parserData(data) {
     let parsedData = []
 
-    for (let key in data) {
-        let parsed = data[key].split(' ')
+    data.forEach(item => {
+        const {groups} = /^(?<min>\d+)-(?<max>\d+) (?<letter>.): (?<password>.*)$/.exec(item)
 
-        if (parsed[0] !== '') {
-            parsedData.push({
-                times: parsed[0].split('-').map(Number),
-                letter: parsed[1].replace(':', ''),
-                password: parsed[2]
-            })
-        }
-    }
+        /**
+         * Regex Fragment   | Meaning
+         * ===========================
+         * (\d+)-(\d+)      | ...numbers, separated by hyphen
+         * (.):             | ...anything followed by colon
+         * (.*)             | ...anything until the end
+         * ?<min>           | ...group result called MIN
+         */
+
+        parsedData.push({
+            min: groups.min,
+            max: groups.max,
+            letter: groups.letter,
+            password: groups.password
+        })
+    })
 
     return parsedData
 }
 
-function validatePasswords(arr) {
+function validatePasswords(passwords) {
     let count = 0
 
-    for (let key in arr) {
+    for (let key in passwords) {
 
-        let letter = arr[key].letter;
-        let min = arr[key].times[0];
-        let max = arr[key].times[1];
-
-        let password = arr[key].password;
+        let {letter, password, min, max} = passwords[key]
 
         const regex = new RegExp(`${letter}`, 'g')
         const letterCounter = (password.match(regex) || []).length;
@@ -37,30 +41,27 @@ function validatePasswords(arr) {
         if (letterCounter >= min && letterCounter <= max) count++
     }
 
-
     return count
-
 }
 
-function validatePasswordsByPosition(arr) {
-
+function validatePasswordsByXOR(passwords) {
     let count = 0
 
-    for (let key in arr) {
-        let password = arr[key].password.split('');
-        let position1 = arr[key].times[0] - 1;
-        let position2 = arr[key].times[1] - 1;
-        let letter = arr[key].letter;
+    for (let key in passwords) {
+        let {letter, min, max} = passwords[key]
+        let password = passwords[key].password.split((''))
 
-        let validation1 = password[position1] === letter;
-        let validation2 = password[position2] === letter;
-
-        if ((validation1 || validation2) && !(validation1 && validation2)) count++
-
+        // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Bitwise_XOR
+        if (password[min - 1] === letter ^ password[max - 1] === letter) count++
     }
 
     return count
 }
 
-module.exports = { parserData, validatePasswords, validatePasswordsByPosition }
+const parsedData = parserData(data)
+
+console.log(`Valid Passwords: ${validatePasswords(parsedData)}`)
+console.log(`Valid Passwords: ${validatePasswordsByXOR(parsedData)}`)
+
+module.exports = {parserData, validatePasswords, validatePasswordsByXOR}
 
