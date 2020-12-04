@@ -1,49 +1,34 @@
-const data = require('./data')
+const fs = require('fs');
 
-function findTwoNumbers(arr) {
-    const goal = 2020
-    let nums
+const data = fs.readFileSync('./data-01.txt', {encoding: 'UTF-8'}).split('\n').filter(element => element).map(Number);
 
-    for (let key1 in arr) {
-        for (let key2 in arr) {
-            let sum = arr[key1] + arr[key2]
-            if (sum === goal) {
-                nums = [arr[key1], arr[key2]]
+function findSecretNumber1(arr) {
+    const goal = 2020;
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if ((arr[i] + arr[j]) === goal) {
+                return arr[i] * arr[j]
             }
         }
     }
-
-    return nums
 }
 
-function findThreeNumbers(arr) {
-    const goal = 2020
-    let nums
+function findSecretNumber2(arr) {
+    const goal = 2020;
 
-    for (let key1 in arr) {
-        for (let key2 in arr) {
-            for (let key3 in arr) {
-                let sum = arr[key1] + arr[key2] + arr[key3]
-                if (sum === goal) {
-                    nums = [arr[key1], arr[key2], arr[key3]]
-                    break;
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            for (let k = j + 1; k < arr.length; k++) {
+                if ((arr[i] + arr[j] + arr[k]) === goal) {
+                    return arr[i] * arr[j] * arr[k]
                 }
             }
         }
     }
-
-    return nums
 }
 
-function findSecretNumber(arr) {
-    const secretNumber = arr.reduce((acc, curr) => acc * curr);
-    return secretNumber
-}
+console.log(`Secret#1: ${findSecretNumber1(data)}`)
+console.log(`Secret#2: ${findSecretNumber2(data)}`)
 
-const nums1 = findTwoNumbers(data)
-const nums2 = findThreeNumbers(data)
-
-console.log(findSecretNumber(nums1));
-console.log(findSecretNumber(nums2));
-
-module.exports = {findTwoNumbers, findThreeNumbers, findSecretNumber}
+module.exports = {findSecretNumber1, findSecretNumber2}
