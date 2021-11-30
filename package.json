@@ -1,8 +1,8 @@
 {
   "name": "advent-of-code-2020",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "index.js",
-  "repository": "git@github.com:yasminnvaz/advent-of-code-2020.git",
+  "repository": "git@github.com:yasminnvaz/advent-of-code.git",
   "author": "Yasminn Vaz <yasminnvaz@gmail.com>",
   "license": "MIT",
   "devDependencies": {
